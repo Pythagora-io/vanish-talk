@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Complex_Chat_App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Dashboard</h2>
+    <form id="updateProfileForm">
+        <div class="form-group">
+            <label for="username">New Username:</label>
+            <input type="text" class="form-control" id="username">
+        </div>
+        <div class="form-group">
+            <label for="password">New Password:</label>
+            <input type="password" class="form-control" id="password">
+        </div>
+        <div class="form-group">
+            <label for="avatarURL">New Avatar URL:</label>
+            <input type="text" class="form-control" id="avatarURL">
+        </div>
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+    <hr>
+    <h3>Chat Rooms</h3>
+    <a href="/chat-room-select" class="btn btn-info">Join or Create Chat Rooms</a>
+</div>
+<script src="/dashboardScript.js"></script>
+<script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+<script src="/chatScript.js"></script>
+</body>
+</html>

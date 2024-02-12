@@ -1,0 +1,21 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding-top: 20px;
+}
+
+input, button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+a {
+    display: block;
+    margin-top: 10px;
+}
