@@ -4,22 +4,64 @@
     <meta charset="UTF-8">
     <title>Login - Complex_Chat_App</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<div class="container">
-    <h2>Login</h2>
-    <form id="loginForm">
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" required>
-        </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
+<div class="main-content">
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
 </div>
-<script src="/loginScript.js"></script>
+<footer>
+    <!-- Footer content here -->
+</footer>
+<script src="/commonScript.js"></script>
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    console.log(`Attempting login with email: ${email}`); // gpt_pilot_debugging_log
+
+    try {
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        });
+
+        console.log('Login request sent to server.'); // gpt_pilot_debugging_log
+
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log('Login response received:', data); // gpt_pilot_debugging_log
+            sessionStorage.setItem('username', data.user.username);
+            window.location.href = '/chat-room-select'; 
+        } else {
+            console.error('Login failed:', data.message); // gpt_pilot_debugging_log
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error('Error during login process:', error.message, error.stack); // gpt_pilot_debugging_log
+        alert('Failed to login. Please try again.');
+    }
+});
+</script>
 </body>
 </html>

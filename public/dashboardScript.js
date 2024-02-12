@@ -23,10 +23,10 @@ document.getElementById('updateProfileForm').addEventListener('submit', async (e
     const password = document.getElementById('password').value;
     const avatarURL = document.getElementById('avatarURL').value;
 
-    console.log('Attempting to update profile...'); // gpt_pilot_debugging_log
+    console.log('Sending profile update request with data:', { username, password, avatarURL }); // gpt_pilot_debugging_log
 
     try {
-        const response = await fetch('/dashboard/updateProfile', {
+        const response = await fetch('/api/user/updateProfile', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -37,15 +37,17 @@ document.getElementById('updateProfileForm').addEventListener('submit', async (e
         console.log('Fetch request to update profile sent.'); // gpt_pilot_debugging_log
 
         if (!response.ok) {
-            console.error('Failed to update profile, server responded with non-OK status.'); // gpt_pilot_debugging_log
-            throw new Error('Failed to update profile');
-        } else {
-            alert('Profile updated successfully.');
-            window.location.reload();
+            console.error(`Failed to update profile, server responded with status: ${response.status}`); // gpt_pilot_debugging_log
+            throw new Error(`Failed to update profile - Status: ${response.status}`);
         }
 
+        const data = await response.json();
+        console.log('Received response:', data); // gpt_pilot_debugging_log
+        console.log(`Server response: ${data.message}`); // gpt_pilot_debugging_log
+        alert(data.message);
+        window.location.reload();
     } catch (error) {
-        console.error('Dashboard script error:', error.message, error.stack); // gpt_pilot_debugging_log
-        alert('Failed to update user profile.');
+        console.error(`Dashboard script error: ${error.message}`, error.stack); // gpt_pilot_debugging_log
+        alert('Failed to update profile. Error: ' + error.message);
     }
 });

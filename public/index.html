@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Complex_Chat_App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1>Server is running</h1>
+<div class="main-content">
+    <div>
+        <a href="/login" class="btn btn-primary">Login</a>
+        <a href="/register" class="btn btn-secondary">Register</a>
+    </div>
+</div>
+<footer>
+    <!-- Footer content here -->
+    <script src="/commonScript.js"></script>
+</footer>
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+       try {
+           console.log('Landing page script loaded successfully.'); // gpt_pilot_debugging_log
+       } catch (error) {
+           console.error('Error loading scripts:', error.message, error.stack); // gpt_pilot_debugging_log
+       }
+   });
+</script>
 </body>
 </html>

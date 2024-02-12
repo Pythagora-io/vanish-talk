@@ -1,13 +1,26 @@
-body, html {
+html, body {
     height: 100%;
     margin: 0;
+}
+
+body {
     font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1 0 auto;
+    padding-bottom: 62px; /* Adjusted this value based on footer height to ensure content does not overlap */
+    padding-top: 20px; /* Ensure existing main-content starts below the newly added header */
 }
 
 .container {
     max-width: 600px;
     margin: auto;
     padding-top: 20px;
+    width: 100%;
 }
 
 input, button {
@@ -18,4 +31,44 @@ input, button {
 a {
     display: block;
     margin-top: 10px;
+}
+
+/* Footer styling */
+footer {
+    flex-shrink: 0;
+    background-color: #f1f1f1; /* Light grey background */
+    border-top: 1px solid #e0e0e0;
+    color: #666;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    position: fixed; /* Make footer stick to the bottom */
+    bottom: 0; /* Align to the bottom */
+    left: 0; /* Align to the left edge */
+    display: flex; /* Added display flex */
+    justify-content: center; /* Center align the content */
+    align-items: center; /* Align items in the center vertically */
+}
+
+footer a {
+    margin: 0 15px; /* Add margin to each link for spacing */
+}
+
+/* Adding styles for the header */
+header {
+    background-color: #007bff; /* Bootstrap primary blue */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+header p {
+    margin: 10px 0 0;
+    font-size: 1.2rem;
 }

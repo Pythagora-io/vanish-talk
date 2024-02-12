@@ -1,5 +1,6 @@
 document.getElementById('loginForm').addEventListener('submit', async (event) => {
     event.preventDefault();
+
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
@@ -17,9 +18,8 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
 
         if (response.status === 200) {
             console.log('Login successful for email:', email); // gpt_pilot_debugging_log
-            console.log('Storing username in session storage for username:', data.user.username); // gpt_pilot_debugging_log
             sessionStorage.setItem('username', data.user.username);
-            window.location.href = '/chat-room-select'; // Changed to direct users to the chat room selection page instead of the dashboard after login
+            window.location.href = '/chat-room-select'; 
         } else {
             console.error('Login failed for email:', email, 'Response:', data.message); // gpt_pilot_debugging_log
             alert(data.message);

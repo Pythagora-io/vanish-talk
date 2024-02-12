@@ -38,6 +38,17 @@ userSchema.methods.isValidPassword = async function(password) {
     }
 };
 
+userSchema.methods.setPassword = async function(newPassword) {
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(newPassword, salt);
+        console.log('New password hashed successfully.'); // gpt_pilot_debugging_log
+    } catch (error) {
+        console.error(`setPassword Error: ${error.message}`, error.stack); // gpt_pilot_debugging_log
+        throw new Error('Password hashing failed');
+    }
+};
+
 userSchema.methods.generateVerificationToken = function() {
     try {
         this.verificationToken = crypto.randomBytes(32).toString('hex');

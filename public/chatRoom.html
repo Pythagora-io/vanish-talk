@@ -4,16 +4,23 @@
     <meta charset="UTF-8">
     <title>Chat Room - Complex_Chat_App</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<div class="container">
-    <h2 id="roomTitle">Chat Room</h2>
-    <h3 id="roomUsersCount">Users in room: 0</h3>
-    <div id="messages" style="margin-bottom: 20px;"></div>
-    <input type="text" id="messageInput" placeholder="Type a message...">
-    <button id="sendMessage">Send</button>
+<div class="main-content">
+    <div class="container">
+        <h2 id="roomTitle">Chat Room</h2>
+        <h3 id="roomUsersCount">Users in room: 0</h3>
+        <div id="messages" style="margin-bottom: 20px;"></div>
+        <input type="text" id="messageInput" placeholder="Type a message...">
+        <button id="sendMessage">Send</button>
+    </div>
 </div>
+<footer>
+    <!-- Footer content here -->
+</footer>
 <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
 <script src="/chatRoomScript.js"></script>
+<script src="/commonScript.js"></script>
 </body>
 </html>

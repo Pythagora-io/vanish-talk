@@ -18,6 +18,7 @@ router.post('/create', async (req, res) => {
     }
 
     const { roomName, password } = req.body;
+    console.log(`Received room creation/join request with roomName: ${roomName} and password: ${password ? 'Yes' : 'No'}`); // gpt_pilot_debugging_log
     let room = await Room.findOne({ name: roomName });
     if (room) {
       console.log(`Room found: ${room.name}`); // gpt_pilot_debugging_log

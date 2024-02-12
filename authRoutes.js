@@ -35,18 +35,18 @@ router.post('/register', async (req, res) => {
         await user.save();
 
         // Send verification email
-        const verificationUrl = `http://localhost:3000/api/auth/verify-email?token=${user.verificationToken}`;
+        const verificationUrl = `http://localhost:3000/api/auth/verify-email?token=${user.verificationToken}&reset=true`; // Modified as per instructions
         await transporter.sendMail({
             from: process.env.EMAIL_FROM,
             to: user.email,
             subject: 'Verify Your Email',
-            html: `<p>Please click the link to verify your email: <a href="${verificationUrl}">${verificationUrl}</a></p>`
+            html: `<p>Please click the link to verify your email and set your password: <a href="${verificationUrl}">${verificationUrl}</a></p>`
         });
-        console.log(`Verification email sent to ${email}.`);
+        console.log(`Verification email sent to ${email} with reset option.`); // gpt_pilot_debugging_log
 
-        res.status(201).json({ message: 'User registered successfully. Please check your email to verify your account.' });
+        res.status(201).json({ message: 'User registered successfully. Please check your email to verify your account and set your password.' });
     } catch (error) {
-        console.error(`Register Error: ${error.message}`, error.stack);
+        console.error(`Register Error: ${error.message}`, error.stack); // gpt_pilot_error_log
         res.status(500).json({ message: 'Server error' });
     }
 });
@@ -77,13 +77,13 @@ router.post('/login', async (req, res) => {
 
         try {
             if (!req.session) {
-                console.error('Session object is undefined.');
+                console.error('Session object is undefined.'); // gpt_pilot_error_log
                 return res.status(500).json({ message: 'Internal server error related to session management.' });
             }
             req.session.userId = user._id; // Setting userId in session
-            console.log(`Login process completed. Session ID: ${req.sessionID}, User ID in session: ${req.session.userId}`);
+            console.log(`Login process completed. Session ID: ${req.sessionID}, User ID in session: ${req.session.userId}`); // gpt_pilot_debugging_log
         } catch (error) {
-            console.error('Error while handling session data:', error.message, error.stack);
+            console.error('Error while handling session data:', error.message, error.stack); // gpt_pilot_error_log
             return res.status(500).json({ message: 'Error while handling session data.' });
         }
 
@@ -96,9 +96,9 @@ router.post('/login', async (req, res) => {
                 avatarURL: user.avatarURL
             }
         });
-        console.log(`User ${user.username} logged in successfully.`);
+        console.log(`User ${user.username} logged in successfully.`); // gpt_pilot_debugging_log
     } catch (error) {
-        console.error(`Login Error: ${error.message}`, error.stack);
+        console.error(`Login Error: ${error.message}`, error.stack); // gpt_pilot_error_log
         res.status(500).json({ message: 'Server error' });
     }
 });
@@ -125,10 +125,10 @@ router.get('/verify-email', async (req, res) => {
         user.verificationToken = undefined;
         await user.save();
 
-        console.log(`User ${user.email} email verified successfully.`);
-        res.json({ message: 'Email verified successfully. You can now log in.' });
+        console.log(`User ${user.email} email verified successfully, redirecting to set new password.`); // gpt_pilot_debugging_log
+        res.redirect('/setNewPassword.html?verified=true');
     } catch (error) {
-        console.error(`Verification Error: ${error.message}`, error.stack);
+        console.error(`Verification Error: ${error.message}`, error.stack); // gpt_pilot_error_log
         res.status(500).json({ message: 'Server error' });
     }
 });

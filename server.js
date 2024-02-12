@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 require('./db');
 const app = express();
 const authRoutes = require('./authRoutes');
-const dashboardRoute = require('./dashboardRoute');
 const expressSession = require('express-session');
 const MongoStore = require('connect-mongo');
 const isLoggedInMiddleware = require('./isLoggedInMiddleware');
@@ -46,7 +45,9 @@ try {
 
   app.get('/', (req, res) => {
     try {
-      res.sendFile(path.join(__dirname, 'landingPage.html'));
+      const landingPagePath = path.join(__dirname, 'public', 'landingPage.html');
+      console.log(`Attempting to serve landingPage.html from: ${landingPagePath}`); // gpt_pilot_debugging_log
+      res.sendFile(landingPagePath);
       console.log('Served landingPage.html successfully.'); // gpt_pilot_debugging_log
     } catch (error) {
       console.error('Failed to serve landingPage.html:', error.message, error.stack); // gpt_pilot_debugging_log
@@ -77,14 +78,16 @@ try {
   });
 
   app.get('/register', (req, res) => {
-    try {
-      res.sendFile(path.join(__dirname, 'register.html'));
-      console.log('Served register.html successfully.'); // gpt_pilot_debugging_log
-    } catch (error) {
-      console.error('Failed to serve register.html:', error.message, error.stack); // gpt_pilot_debugging_log
-      res.status(500).send('An error occurred while serving the registration page.');
-    }
-  });
+  try {
+    const registerPath = path.join(__dirname, 'public', 'register.html');
+    console.log(`Attempting to serve register.html from: ${registerPath}`); // gpt_pilot_debugging_log
+    res.sendFile(registerPath);
+    console.log('Served register.html successfully.'); // gpt_pilot_debugging_log
+  } catch (error) {
+    console.error('Failed to serve register.html:', error.message, error.stack); // gpt_pilot_debugging_log
+    res.status(500).send('An error occurred while serving the registration page.');
+  }
+});
 
   mongoose.connection.once('open', () => {
     console.log('MongoDB connection established successfully.');
@@ -96,13 +99,23 @@ try {
     console.error('Error connecting to MongoDB:', error.message, error.stack);
   });
 
-  app.use('/dashboard', dashboardRoute);
+  app.get('/dashboard', isLoggedInMiddleware, (req, res) => {
+    try {
+        const dashboardPath = path.join(__dirname, 'public', 'dashboard.html');
+        console.log(`Attempting to serve dashboard.html from: ${dashboardPath}`); // gpt_pilot_debugging_log
+        res.sendFile(dashboardPath);
+        console.log('Served dashboard.html successfully.'); // gpt_pilot_debugging_log
+    } catch (error) {
+        console.error('Failed to serve dashboard.html:', error.message, error.stack); // gpt_pilot_debugging_log
+        res.status(500).send('An error occurred while serving the dashboard page.');
+    }
+});
   
   // Using the userRoutes
   app.use('/api/user', userRoutes);
   console.log('User routes configured successfully.'); // gpt_pilot_debugging_log
 
-  app.get('/chat-room-select', (req, res) => {
+  app.get('/chat-room-select', isLoggedInMiddleware, (req, res) => {
     try {
       res.sendFile(path.join(__dirname, 'public', 'chat-room-select.html'));
       console.log('Served chat-room-select.html successfully.'); // gpt_pilot_debugging_log

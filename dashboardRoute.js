@@ -27,16 +27,14 @@ router.post('/updateProfile', async (req, res) => {
     const { userId } = req.session;
     const { username, password, avatarURL } = req.body;
 
-    console.log('Update request received:', { username, password: password ? true : false, avatarURL }); // gpt_pilot_debugging_log
+    console.log(`Received update profile request for user ID ${userId} with data - Username: ${username}, Password: ${password ? 'Provided' : 'Not Provided'}, AvatarURL: ${avatarURL}`); // gpt_pilot_debugging_log
 
     try {
         const user = await User.findById(userId);
         if (!user) {
-            console.log('User not found for ID:', userId); // gpt_pilot_debugging_log
-            return res.status(404).send('User not found');
+            console.log('User not found for provided session ID.'); // gpt_pilot_debugging_log
+            return res.status(404).json({ message: 'User not found.' });
         }
-
-        console.log('Preparing to update user profile for:', user.username); // gpt_pilot_debugging_log
 
         if (username) user.username = username;
         if (avatarURL) user.avatarURL = avatarURL;
@@ -45,14 +43,12 @@ router.post('/updateProfile', async (req, res) => {
             user.password = await bcrypt.hash(password, salt);
         }
 
-        console.log('Updating user profile for:', user.username); // gpt_pilot_debugging_log
-        
         await user.save();
-        console.log('Profile updated successfully for:', user.username); // gpt_pilot_debugging_log
-        res.status(200).send('Profile updated successfully');
+        console.log(`Profile updated successfully for user: ${user.username}.`); // gpt_pilot_debugging_log
+        res.json({ message: 'Profile updated successfully.' });
     } catch (error) {
-        console.error(`Error updating profile: ${error.message}`, error.stack); // gpt_pilot_debugging_log
-        res.status(500).send('Internal Server Error');
+        console.error(`Error updating user profile: ${error.message}`, error.stack); // gpt_pilot_debugging_log
+        res.status(500).json({ message: 'Internal Server Error while updating profile.' });
     }
 });
 

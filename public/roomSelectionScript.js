@@ -1,9 +1,12 @@
 document.getElementById('roomForm').addEventListener('submit', async function(event) {
   event.preventDefault();
   const roomName = document.getElementById('roomName').value.trim();
-  const password = document.getElementById('roomPassword').value; // Fetch password from input
+  const password = document.getElementById('roomPassword').value;
+
+  console.log(`Preparing to send create/join room request with roomName: ${roomName}, Password Provided: ${password ? 'Yes' : 'No'}`); // gpt_pilot_debugging_log
+  console.log(`Attempting to create/join room with name: ${roomName}`, ' and password provided:', password !== ''); // gpt_pilot_debugging_log
+
   try {
-    console.log(`Attempting to create or join room: ${roomName} with password: ${password ? 'yes' : 'no'}`); // gpt_pilot_debugging_log
     const response = await fetch('/api/room/create', {
       method: 'POST',
       headers: {
@@ -11,38 +14,40 @@ document.getElementById('roomForm').addEventListener('submit', async function(ev
       },
       body: JSON.stringify({ roomName, password }),
     });
+
     if (response.ok) {
-      console.log(`Successfully joined or created room: ${roomName}`); // gpt_pilot_debugging_log
+      const data = await response.json();
+      console.log(`Successfully joined or created room: ${data.room.name}`); // gpt_pilot_debugging_log
       window.location.href = `/chat?room=${encodeURIComponent(roomName)}`;
     } else {
-      console.error('Failed to join/create room, server response was not OK.'); // gpt_pilot_debugging_log
-      const { message } = await response.json();
-      console.error('Failed to join/create room, server response was not OK:', message); // gpt_pilot_debugging_log
-      alert(message);
+      const errorText = await response.text();
+      console.error('Failed to join/create room with response:', errorText); // gpt_pilot_debugging_log
+      alert('Failed to join/create room.');
     }
   } catch (error) {
-    console.error('Error while joining/creating room:', error.message, error.stack); // gpt_pilot_debugging_log // gpt_pilot_debugging_log
-    alert('Failed to join/create room.');
+    console.error('Error during fetching create/join room:', error.message, error.stack); // gpt_pilot_debugging_log
+    alert('Error occurred. Please try again.');
   }
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const roomsList = document.getElementById('roomsList');
+  const roomsList = document.getElementById('roomsList'); // Get the element that will display the list of rooms
   try {
     console.log('Fetching room list...'); // gpt_pilot_debugging_log
-    const response = await fetch('/api/rooms/list');
-    if (!response.ok) throw new Error('Failed to fetch rooms');
-    const rooms = await response.json();
-    let roomsHtml = rooms.map(room => `<button onclick="selectRoom('${room.name}')">${room.name}</button>`);
-    roomsList.innerHTML = roomsHtml.join('');
+    const response = await fetch('/api/rooms/list'); // Make a request to get the list of rooms
+    if (!response.ok) throw new Error('Failed to fetch rooms'); // gpt_pilot_debugging_log
+    const rooms = await response.json(); // Parse the JSON response to get the rooms
+    let roomsHtml = rooms.map(room => `<button onclick="selectRoom('${room.name}')">${room.name}</button>`); // Create HTML for each room
+    roomsList.innerHTML = roomsHtml.join(''); // Set the inner HTML of the roomsList element
     console.log('Room list fetched and displayed successfully.'); // gpt_pilot_debugging_log
   } catch (error) {
-    console.error(`Error fetching rooms: ${error.message}`, error.stack); // gpt_pilot_debugging_log // gpt_pilot_debugging_log
-    roomsList.innerHTML = '<p>Error loading rooms. Please try again later.</p>';
+    // Catch and log any errors that occur during the operation
+    console.error(`Error fetching rooms: ${error.message}`, error.stack); // gpt_pilot_debugging_log
+    roomsList.innerHTML = '<p>Error loading rooms. Please try again later.</p>'; // Display an error message in the UI
   }
 });
 
 function selectRoom(roomName) {
   console.log(`Room selected: ${roomName}`); // gpt_pilot_debugging_log
-  document.getElementById('roomName').value = roomName;
+  document.getElementById('roomName').value = roomName; // Set the value of the roomName input to the selected room
 }

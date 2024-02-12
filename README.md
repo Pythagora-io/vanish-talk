@@ -1,35 +1,35 @@
 # Complex_Chat_App
 
-Complex_Chat_App is a Node.js-based web application that offers a real-time chat experience accessible through a browser. Users can register, login, and verify their email to access the chat rooms. Inside the application, users can personalize their experience by changing their usernames, passwords, and avatar images. The chat functionality allows users to engage in public global chats or create/join private rooms with or without password protection.
+Complex_Chat_App is a comprehensive chat application designed to provide a seamless chatting experience in a browser. Built with Node.js, this application supports diverse functionalities such as user authentication, session management, email verification, and real-time chatting in various chat rooms. Users can personalize their profiles by updating their usernames, passwords, and avatars directly from the dashboard. The application encapsulates a global chat room feature where messages are stored for a limited time, alongside the creation of private chat rooms with optional password protection for added security.
 
 ## Overview
 
-The application utilizes Node.js for server-side operations, Express for backend routing, MongoDB for data persistence, and Socket.IO for real-time bidirectional event-based communication. Front-end styling is achieved with basic HTML, CSS, and Bootstrap for responsiveness. The project structure includes server and client code segregation, dedicated routes for authentication and chat room management, and models for database interactions.
+The application employs Node.js for its backend services, with Express.js facilitating the routing mechanisms. MongoDB is used for data storage, ensuring persistence of user credentials and messages in the global chat room. Socket.IO enables real-time, bidirectional communication between clients and the server. For the front-end, simple HTML, CSS, and Bootstrap are utilized to create a responsive and user-friendly interface.
 
 ## Features
 
-- User authentication with session management
+- User authentication and session management
 - Email verification for new accounts
-- Ability to update user profiles including avatars
-- Public global chat room with message retention
-- Private chat rooms with optional password protection
-- Real-time chat with sound notifications for new messages
-- Auto-deletion of empty rooms after a specified time
+- Profile management including username, password, and avatar updates
+- A global chat room with temporary message storage
+- Creation of private chat rooms, with optional password protection
+- Real-time messaging with timestamp and sound notifications
+- Automatic deletion of empty rooms after a set period of inactivity
 
 ## Getting started
 
 ### Requirements
 
-- Node.js (version 14 or later)
-- MongoDB (Local or remote instance)
-- An email service for sending verification emails
+- Node.js (version 14 or later recommended)
+- MongoDB instance (local or cloud-based)
+- SMTP server details for nodemailer configuration
 
 ### Quickstart
 
-1. Clone the repository to your local machine.
-2. Navigate to the project directory and run `npm install` to install dependencies.
-3. Create a `.env` file with appropriate values for database connection, email service, and other configurations as per `.env.example`.
-4. Run `npm start` to start the server. The application will be accessible at https://localhost:3000.
+1. Clone the repository to your local system.
+2. Run `npm install` in the project directory to install needed dependencies.
+3. Populate the `.env` file with the necessary environment variables as illustrated in `.env.example`.
+4. Execute `npm start` to run the server. By default, the application will be accessible at `https://localhost:3000`.
 
 ### License
 
