@@ -1,7 +1,14 @@
 document.getElementById('roomForm').addEventListener('submit', async function(event) {
   event.preventDefault();
-  const roomName = document.getElementById('roomName').value.trim();
+  let roomName = document.getElementById('roomName').value.trim(); // Modified from const to let to allow reassignment
   const password = document.getElementById('roomPassword').value;
+
+  // Check if room name is blank and set it to "global" if so
+  // gpt_pilot_debugging_log
+  if (roomName === '') {
+    console.log('No room name provided, defaulting to global chat.'); // gpt_pilot_debugging_log
+    roomName = 'global'; // Default to global chat if room name is left blank
+  }
 
   console.log(`Preparing to send create/join room request with roomName: ${roomName}, Password Provided: ${password ? 'Yes' : 'No'}`); // gpt_pilot_debugging_log
   console.log(`Attempting to create/join room with name: ${roomName}`, ' and password provided:', password !== ''); // gpt_pilot_debugging_log

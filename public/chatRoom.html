@@ -9,6 +9,8 @@
 <body>
 <div class="main-content">
     <div class="container">
+        <!-- Back button to navigate to the chat room selection page -->
+        <a href="/chat-room-select.html" class="btn btn-secondary mb-3">Back to Rooms</a>
         <h2 id="roomTitle">Chat Room</h2>
         <h3 id="roomUsersCount">Users in room: 0</h3>
         <div id="messages" style="margin-bottom: 20px;"></div>
@@ -22,5 +24,14 @@
 <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
 <script src="/chatRoomScript.js"></script>
 <script src="/commonScript.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        try {
+            console.log('Chat room page loaded successfully.'); // gpt_pilot_debugging_log
+        } catch (error) {
+            console.error('Loading of chat room page failed:', error.message, error.stack); // gpt_pilot_debugging_log
+        }
+    });
+</script>
 </body>
 </html>

@@ -125,8 +125,8 @@ router.get('/verify-email', async (req, res) => {
         user.verificationToken = undefined;
         await user.save();
 
-        console.log(`User ${user.email} email verified successfully, redirecting to set new password.`); // gpt_pilot_debugging_log
-        res.redirect('/setNewPassword.html?verified=true');
+        console.log(`User ${user.email} email verified successfully, redirecting to email verified success page.`); // gpt_pilot_debugging_log
+        res.redirect('/emailVerified.html');
     } catch (error) {
         console.error(`Verification Error: ${error.message}`, error.stack); // gpt_pilot_error_log
         res.status(500).json({ message: 'Server error' });
